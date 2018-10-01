@@ -219,11 +219,16 @@ var card =
 	    for (name in ref) {
 	      selector = ref[name];
 	      el = this["$" + name];
+				if (el instanceof NodeList) {
+	        el = el[0];
+	      }
 	      if (QJ.val(el)) {
 	        QJ.trigger(el, 'paste');
-	        results.push(setTimeout(function() {
-	          return QJ.trigger(el, 'keyup');
-	        }));
+					results.push((function(el) {
+	          return setTimeout(function() {
+	            return QJ.trigger(el, 'keyup');
+	          });
+	        })(el));
 	      } else {
 	        results.push(void 0);
 	      }
